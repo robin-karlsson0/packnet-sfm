@@ -18,6 +18,54 @@ This is also the official implementation of [**Neural Ray Surfaces for Self-Supe
 
 ## Install
 
+CUDA 11.3
+PyTorch 1.10.1
+
+```bash
+conda create -n mink python=3.9
+conda activate mink
+conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
+conda install openblas-devel -c anaconda
+Add 'export CUDA_HOME=/usr/local/cuda-11.3' --> .bashrc
+pip install -U git+https://github.com/NVIDIA/MinkowskiEngine -v --no-deps --install-option="--blas_include_dirs=${CONDA_PREFIX}/include" --install-option="--blas=openblas"
+```
+
+```bash
+# Conda
+conda create -n packnet python=3.9
+conda activate packnet
+# PyTorch
+conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
+# Dependencies
+sudo apt install libopenmpi-dev
+pip install future typing numpy pandas matplotlib jupyter h5py awscli boto3 tqdm termcolor path.py pillow-simd opencv-python-headless onnx onnxruntime pycuda yacs cython ninja wandb
+# mpi4py
+Add 'export CPPFLAGS=-DOMPI_WANT_MPI_INTERFACE_WARNING=0' --> .bashrc
+Add 'export CC=icc' --> .bashrc <CONFIRM - set 'export CC=cc' for Minkowski>
+pip install mpi4py
+# APEX
+cd ../
+git clone https://github.com/NVIDIA/apex
+cd apex
+pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+(OR: pip install -v --disable-pip-version-check --no-cache-dir ./)
+cd ../
+# Install Minkowski Engine
+conda install openblas-devel -c anaconda
+Add 'export CUDA_HOME=/usr/local/cuda-11.3' --> .bashrc
+pip install -U git+https://github.com/NVIDIA/MinkowskiEngine -v --no-deps --install-option="--blas_include_dirs=${CONDA_PREFIX}/include" --install-option="--blas=openblas"
+# Install DGP
+git clone https://github.com/TRI-ML/dgp.git
+cd dgp
+pip install -r requirements.txt
+conda install -c anaconda pandas
+# Install Horovod (non-NCCL version)
+pip install horovod
+
+# Install packnet-sfm
+export PYTHONPATH=/home/robin/projects/packnet-sfm:/home/robin/projects/dgp
+```
+
 You need a machine with recent Nvidia drivers and a GPU with at least 6GB of memory (more for the bigger models at higher resolution). We recommend using docker (see [nvidia-docker2](https://github.com/NVIDIA/nvidia-docker) instructions) to have a reproducible environment. To setup your environment, type in a terminal (only tested in Ubuntu 18.04):
 
 ```bash
